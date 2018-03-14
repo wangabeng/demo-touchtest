@@ -29,13 +29,14 @@
         #move-content {
             position: absolute;
             top: 0;
-            left: 0;
+            left: .5rem;
         }
         #move-content ul {
             margin: .5rem 0 0 0;
             overflow: hidden;
             width: 20rem;
-            -background: gray;
+            background: gray;
+            padding: 0 .2rem;
         }
         #move-content ul li {
             display: inline-block;
@@ -46,6 +47,7 @@
             width: 4.4rem;
             border: 0;
         }
+
     </style>
 </head>
 <body>
@@ -88,6 +90,8 @@
             originTop,
             X,
             Y;
+        // 默认居中显示的图片的index值    
+        var curIndex = 0;
         
         // 监听touchstart事件
         $(".move-wrapper").on("touchstart", function(event) {
@@ -128,7 +132,7 @@
             if (Math.abs(X) >= Math.abs(Y)) {
                 // 如果y轴方向的滑动距离绝对值比较大 就不阻止页面滚动 让页面可以滚动
                 moveEle.css('left', originLeft + X + 'px');
-                moveEle.find('img').eq(0).css('transform', 'scale(1.1, 1.1)');
+                moveEle.find('img').eq(1).css('transform', 'scale(1.1, 1.1)');
                 // moveEle.css('top', originTop + Y + 'px');
             } else {
                 return;
@@ -139,14 +143,28 @@
 
         // 监听move结束事件
         $('body').on('touchend', function () {
+            const moveBound = 4.4 + .4;
+
             // 鼠标点击至鼠标松开持续的时间
             var duration = + new Date() - startTime;
-
             console.log('end', duration);
+
+            // 如果X轴上滑动距离大于0.8rem 此时松开手指 就让整个ul移动一个身位 4.4rem+2*0.2rem
+            if(Math.abs(X) > 10 && Math.abs(X) < 200) {
+                moveEle.css('left', originLeft - 200 + 'px');
+            }
+            
             //解绑事件
             this.removeEventListener('touchmove',this,false);
             this.removeEventListener('touchend',this,false);
         });
+
+        // 工具方法
+        // 实时获取1rem单位的px值
+        function pxChangeRem () {
+            var deviceWidth = document.body && document.body.clientWidth || document.getElementsByTagName("html")[0].offsetWidth;
+            return deviceWidth * 200 / 1280;
+        }
 
 
     </script>
