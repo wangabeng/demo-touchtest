@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src='jquery1.10.2.js'></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 900px;
+        }
+        .move-wrapper {
+            height: 300px;
+            width: 100%;
+            position: relative;
+            top: 0;
+            right: 0;
+            border: 1px solid blue;
+            overflow: hidden;
+        }
+        #move-content {
+            background: gray;
+            height: 280px;
+            width: 80%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class='move-wrapper'>
+        <div class="move-coontent" id='move-content'>
+        </div>
+    </div>
+    <script>
+        var startX,
+            startY,
+            moveEndX,
+            moveEndY;
+        var moveEle = $('#move-content');
+        var originLeft,
+            originTop,
+            X,
+            Y;
+        
+        // 监听touchstart事件
+        $(".move-wrapper").on("touchstart", function(e) {
+            e.preventDefault();
+            startX = e.originalEvent.changedTouches[0].pageX;
+            startY = e.originalEvent.changedTouches[0].pageY;
+            // 获取moveEle初始的top和left值
+            originLeft = parseInt(moveEle.css('left'));
+            originTop = parseInt(moveEle.css('top'));
+            
+            console.log('初始值left', originLeft, '初始值top', originTop);
+        });
+        // 监听touchmove事件
+        $('body').on('touchmove', function (e) {
+            e.preventDefault();
+            moveEndX = e.originalEvent.changedTouches[0].pageX;
+            moveEndY = e.originalEvent.changedTouches[0].pageY;
+            // 算出移动的距离
+            X = moveEndX - startX;
+            Y = moveEndY - startY;
+            console.log('移动距离X', X, '移动距离Y' + Y);
+            console.log('实时top值', X, '实时left值' + Y);
+            moveEle.css('left', originLeft + X + 'px');
+            moveEle.css('top', originTop + Y + 'px');
+        });
+        // 监听move结束事件
+        $('body').on('touchend', function (e) {
+            e.preventDefault();
+            moveEle.css('left', originLeft + X + 'px');
+            moveEle.css('top', originTop + Y + 'px');
+        });
+
+    </script>
+</body>
+</html>

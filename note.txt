@@ -1,0 +1,19 @@
+相同的问题
+https://segmentfault.com/q/1010000005643219
+
+原理demo
+https://www.cnblogs.com/puyongsong/p/5983324.html
+
+已有类似效果
+demo
+http://idangero.us/swiper/demos/
+http://idangero.us/swiper/demos/240-effect-coverflow.html
+
+比较详细的讲解
+https://segmentfault.com/a/1190000008798547
+
+更详细的讲解
+http://blog.csdn.net/u012468376/article/details/72808761
+
+最像的效果 depth   ok
+http://be-fe.github.io/iSlider/demo/animation.html
