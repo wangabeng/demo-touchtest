@@ -61,10 +61,6 @@
         });
         // 监听touchmove事件
         $('body').on('touchmove', function (e) {
-            //当屏幕有多个touch或者页面被缩放过，就不执行move操作
-            if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) {
-                return;
-            };
             e.preventDefault();
             moveEndX = e.originalEvent.changedTouches[0].pageX;
             moveEndY = e.originalEvent.changedTouches[0].pageY;
