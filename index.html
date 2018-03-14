@@ -160,10 +160,10 @@
         });
 
         // 工具方法
-        // 实时获取1rem单位的px值
-        function pxChangeRem () {
+        // 实时获取1rem单位的px值 rem转像素
+        function remChangePx (remSize) {
             var deviceWidth = document.body && document.body.clientWidth || document.getElementsByTagName("html")[0].offsetWidth;
-            return deviceWidth * 200 / 1280;
+            return remSize(deviceWidth * 200 / 1280);
         }
 
 
