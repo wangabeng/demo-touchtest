@@ -3,46 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <script src='jquery1.10.2.js'></script>
+    <link rel="stylesheet" href="./css/base.css">
+    <script src='./js/jquery1.10.2.js'></script>
+    <script src='./js/fontSize.js'></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
         body {
-            height: 900px;
+            height: 12rem;
         }
         .move-wrapper {
-            height: 300px;
+            height: 8rem;
             width: 100%;
             position: relative;
             top: 0;
             right: 0;
-            border: 1px solid blue;
             overflow: hidden;
             box-sizing: border-box;
+            margin-top: 1rem;
+            font-size: .25rem;
+            background-image: url('./img/bg.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: 0% center;    
         }
         #move-content {
-            background: gray;
-            height: 280px;
-            width: 80%;
             position: absolute;
             top: 0;
             left: 0;
+        }
+        #move-content ul {
+            margin: .5rem 0 0 0;
+            overflow: hidden;
+            width: 20rem;
+            -background: gray;
+        }
+        #move-content ul li {
+            display: inline-block;
+            padding: .2rem;
+        }
+        #move-content ul li img {
+            display: block;
+            width: 4.4rem;
+            border: 0;
         }
     </style>
 </head>
 <body>
     <div class='move-wrapper'>
         <div class="move-coontent" id='move-content'>
+            <ul>
+                <li>
+                    <a href="#">
+                        <img src="./img/1.jpg" alt="">
+                    </a>
+                </li><!--
+                --><li>
+                    <a href="#">
+                        <img src="./img/2.jpg" alt="">
+                    </a>
+                </li><!--
+                --><li>
+                    <a href="#">
+                        <img src="./img/3.jpg" alt="">
+                    </a>
+                </li><!--
+                --><li>
+                    <a href="#">
+                        <img src="./img/4.jpg" alt="">
+                    </a>
+                </li>
+
+            </ul>
         </div>
     </div>
-
-
-<div class="goodsdetil">
-    <div class="goodsMealDiv">ddddd</div>
-</div>
 
     <script>
         var startX,
@@ -59,29 +92,24 @@
         // 监听touchstart事件
         $(".move-wrapper").on("touchstart", function(event) {
              // 判断默认行为是否可以被禁用
-             if (event.cancelable) {
-                 // 判断默认行为是否已经被禁用
-                 if (!event.defaultPrevented) {
-                     event.preventDefault();
-                 }
-             }
+             // event.preventDefault();
 
             // 开始状态信息
             startTime = new Date(); // 鼠标点击开始状态时间
-            console.log('startTime', startTime);
+            // console.log('startTime', startTime);
             startX = event.originalEvent.changedTouches[0].pageX;
             startY = event.originalEvent.changedTouches[0].pageY;
             // 获取moveEle初始的top和left值
             originLeft = parseInt(moveEle.css('left'));
             originTop = parseInt(moveEle.css('top'));
             
-            console.log('初始值left', originLeft, '初始值top', originTop);
+            // console.log('初始值left', originLeft, '初始值top', originTop);
         });
 
         // 监听touchmove事件
         $('body').on('touchmove', function (event) {
-            //阻止触摸事件的默认行为，即阻止滚屏
-            // event.preventDefault();
+            //阻止触摸事件的默认行为，即阻止滚屏 
+            
 
             //当屏幕有多个touch或者页面被缩放过，就不执行move操作 jQuery中直接获取不到event.targetTouches 而是通过event.originalEvent.targetTouches的方式获取的
             // https://my.oschina.net/purelan/blog/271660
@@ -94,10 +122,19 @@
             // 算出移动的距离
             X = moveEndX - startX;
             Y = moveEndY - startY;
-            console.log('移动距离X', X, '移动距离Y' + Y);
-            console.log('实时top值', X, '实时left值' + Y);
-            moveEle.css('left', originLeft + X + 'px');
-            moveEle.css('top', originTop + Y + 'px');
+            // console.log('移动距离X', X, '移动距离Y' + Y);
+            // console.log('实时top值', X, '实时left值' + Y);
+            // 如果X轴方向的距离比较大 就左右滑动 阻止页面滚动
+            if (Math.abs(X) >= Math.abs(Y)) {
+                // 如果y轴方向的滑动距离绝对值比较大 就不阻止页面滚动 让页面可以滚动
+                moveEle.css('left', originLeft + X + 'px');
+                moveEle.find('img').eq(0).css('transform', 'scale(1.1, 1.1)');
+                // moveEle.css('top', originTop + Y + 'px');
+            } else {
+                return;
+            }
+
+
         });
 
         // 监听move结束事件
@@ -105,7 +142,7 @@
             // 鼠标点击至鼠标松开持续的时间
             var duration = + new Date() - startTime;
 
-            console.log(duration);
+            console.log('end', duration);
             //解绑事件
             this.removeEventListener('touchmove',this,false);
             this.removeEventListener('touchend',this,false);
