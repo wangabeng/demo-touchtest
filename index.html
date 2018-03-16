@@ -90,7 +90,9 @@
             originTop,
             X,
             Y,
-            modulo, // 取余
+            curScale, // 实时放到比例
+            curIndex = 0,
+            lastIndex,
             direction, // 移动方向 1为正 -1为负
             imgLength = moveEle.find('li').length;
 
@@ -113,7 +115,7 @@
             originLeft = parseInt(moveEle.css('left'));
             originTop = parseInt(moveEle.css('top'));
             
-            console.log('初始值left', originLeft, '初始值top', originTop);
+            // console.log('初始值left', originLeft, '初始值top', originTop);
         });
 
         // 监听touchmove事件
@@ -132,7 +134,8 @@
             // 算出移动的距离
             X = moveEndX - startX;
             Y = moveEndY - startY;
-            modulo = X % WIDTHANDPADDING;
+
+            // 算出实时的
 
             // console.log('移动距离X', X, '移动距离Y' + Y);
             // console.log('实时top值', X, '实时left值' + Y);
@@ -153,45 +156,35 @@
         $('body').on('touchend', function () {
             // 鼠标点击至鼠标松开持续的时间 判断是否是点击事件 如果是点击事件 直接返回
             var duration = + new Date() - startTime;
-            console.log('end', duration);
-            if (duration < 200) {
-                return;
-            }
+            // console.log('end', duration);
 
             // 判断手指滑动的方向是向左还是向右
             direction = X > 0 ? 1: -1;
-            console.log(direction);
+            // console.log(direction);
+            // console.log('originLeft', originLeft);
+
+            if (duration < 300) {
+                moveEle.css('left', originLeft + 'px');
+                //解绑事件
+                this.removeEventListener('touchmove',this,false);
+                this.removeEventListener('touchend',this,false);
+                return;
+            }
 
             // 分段判断 正向的时候 如果偏移距离 X < 1rem
             // 如果X轴上滑动距离大于0.8rem 此时松开手指 就让整个ul移动一个身位 4.4rem+2*0.2rem
-            // if (direction === 1) {
-            //     if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
-            //          moveEle.animate({
-            //             'left': originLeft + direction * Math.floor(X / WIDTHANDPADDING) * WIDTHANDPADDING + 'px'
-            //         }, '200');
-            //     } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
-            //         moveEle.animate({
-            //             'left': originLeft + direction * Math.ceil(X / WIDTHANDPADDING) * WIDTHANDPADDING + 'px'
-            //         }, '200');
-            //     } else {
-            //         return;
-            //     }
-            // } else if (direction === -1){
-                console.log('左移', originLeft, 'and', Math.floor(X / WIDTHANDPADDING) * WIDTHANDPADDING);
-                if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
-                     moveEle.animate({
-                        'left': originLeft + direction * Math.floor(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
-                    }, '200');
-                } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
-                    moveEle.animate({
-                        'left': originLeft + direction * Math.ceil(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
-                    }, '200');
-                } else {
-                    return;
-                }
-            // } else {
-            //     return;
-            // }
+            // console.log('左移', originLeft, 'and', Math.floor(X / WIDTHANDPADDING) * WIDTHANDPADDING);
+            if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
+                moveEle.animate({
+                    'left': originLeft + direction * Math.floor(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
+                }, '200');
+            } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
+                moveEle.animate({
+                    'left': originLeft + direction * Math.ceil(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
+                }, '200');
+            } else {
+                return;
+            }
             
             //解绑事件
             this.removeEventListener('touchmove',this,false);
