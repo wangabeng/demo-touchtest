@@ -135,7 +135,9 @@
             X = moveEndX - startX;
             Y = moveEndY - startY;
 
-            // 算出实时的
+            // 算出实时的缩放比例
+            curScale = X % WIDTHANDPADDING / WIDTHANDPADDING;
+            console.log('curScale', curScale);
 
             // console.log('移动距离X', X, '移动距离Y' + Y);
             // console.log('实时top值', X, '实时left值' + Y);
@@ -177,15 +179,21 @@
             if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
                 moveEle.animate({
                     'left': originLeft + direction * Math.floor(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
-                }, '200');
+                }, '200', function () {
+                    curScale = X % WIDTHANDPADDING / WIDTHANDPADDING;
+                    console.log('lastcurScale', curScale);
+                });
             } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
                 moveEle.animate({
                     'left': originLeft + direction * Math.ceil(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
-                }, '200');
+                }, '200', function () {
+                    curScale = X % WIDTHANDPADDING / WIDTHANDPADDING;
+                    console.log('lastcurScale', curScale);
+                });
             } else {
                 return;
             }
-            
+           
             //解绑事件
             this.removeEventListener('touchmove',this,false);
             this.removeEventListener('touchend',this,false);
