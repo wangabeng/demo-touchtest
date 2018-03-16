@@ -89,8 +89,14 @@
             originLeft,
             originTop,
             X,
-            Y;
-        // 默认居中显示的图片的index值    
+            Y,
+            modulo, // 取余
+            direction, // 移动方向 1为正 -1为负
+            imgLength = moveEle.find('li').length;
+
+        const WIDTHANDPADDING = remChangePx(4.8);
+
+        // 默认居中显示的图片的index值
         var curIndex = 0;
         
         // 监听touchstart事件
@@ -107,7 +113,7 @@
             originLeft = parseInt(moveEle.css('left'));
             originTop = parseInt(moveEle.css('top'));
             
-            // console.log('初始值left', originLeft, '初始值top', originTop);
+            console.log('初始值left', originLeft, '初始值top', originTop);
         });
 
         // 监听touchmove事件
@@ -126,13 +132,15 @@
             // 算出移动的距离
             X = moveEndX - startX;
             Y = moveEndY - startY;
+            modulo = X % WIDTHANDPADDING;
+
             // console.log('移动距离X', X, '移动距离Y' + Y);
             // console.log('实时top值', X, '实时left值' + Y);
             // 如果X轴方向的距离比较大 就左右滑动 阻止页面滚动
             if (Math.abs(X) >= Math.abs(Y)) {
                 // 如果y轴方向的滑动距离绝对值比较大 就不阻止页面滚动 让页面可以滚动
                 moveEle.css('left', originLeft + X + 'px');
-                moveEle.find('img').eq(1).css('transform', 'scale(1.1, 1.1)');
+                // moveEle.find('img').eq(1).css('transform', 'scale(1.1, 1.1)');
                 // moveEle.css('top', originTop + Y + 'px');
             } else {
                 return;
@@ -143,16 +151,47 @@
 
         // 监听move结束事件
         $('body').on('touchend', function () {
-            const moveBound = 4.4 + .4;
-
-            // 鼠标点击至鼠标松开持续的时间
+            // 鼠标点击至鼠标松开持续的时间 判断是否是点击事件 如果是点击事件 直接返回
             var duration = + new Date() - startTime;
             console.log('end', duration);
-
-            // 如果X轴上滑动距离大于0.8rem 此时松开手指 就让整个ul移动一个身位 4.4rem+2*0.2rem
-            if(Math.abs(X) > 10 && Math.abs(X) < 200) {
-                moveEle.css('left', originLeft - 200 + 'px');
+            if (duration < 200) {
+                return;
             }
+
+            // 判断手指滑动的方向是向左还是向右
+            direction = X > 0 ? 1: -1;
+            console.log(direction);
+
+            // 分段判断 正向的时候 如果偏移距离 X < 1rem
+            // 如果X轴上滑动距离大于0.8rem 此时松开手指 就让整个ul移动一个身位 4.4rem+2*0.2rem
+            // if (direction === 1) {
+            //     if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
+            //          moveEle.animate({
+            //             'left': originLeft + direction * Math.floor(X / WIDTHANDPADDING) * WIDTHANDPADDING + 'px'
+            //         }, '200');
+            //     } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
+            //         moveEle.animate({
+            //             'left': originLeft + direction * Math.ceil(X / WIDTHANDPADDING) * WIDTHANDPADDING + 'px'
+            //         }, '200');
+            //     } else {
+            //         return;
+            //     }
+            // } else if (direction === -1){
+                console.log('左移', originLeft, 'and', Math.floor(X / WIDTHANDPADDING) * WIDTHANDPADDING);
+                if (Math.abs(X % WIDTHANDPADDING) <= remChangePx(1)) {
+                     moveEle.animate({
+                        'left': originLeft + direction * Math.floor(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
+                    }, '200');
+                } else if (Math.abs(X % WIDTHANDPADDING) > remChangePx(1)) {
+                    moveEle.animate({
+                        'left': originLeft + direction * Math.ceil(Math.abs(X / WIDTHANDPADDING)) * WIDTHANDPADDING + 'px'
+                    }, '200');
+                } else {
+                    return;
+                }
+            // } else {
+            //     return;
+            // }
             
             //解绑事件
             this.removeEventListener('touchmove',this,false);
@@ -163,7 +202,7 @@
         // 实时获取1rem单位的px值 rem转像素
         function remChangePx (remSize) {
             var deviceWidth = document.body && document.body.clientWidth || document.getElementsByTagName("html")[0].offsetWidth;
-            return remSize(deviceWidth * 200 / 1280);
+            return remSize * (deviceWidth * 200 / 1280);
         }
 
 
