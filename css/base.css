@@ -1,33 +1,137 @@
-﻿/*-------------------重置样式-------------------*/
-html, body, h1, h2, h3, h4, h5, h6, div, dl, dt, dd, ul, ol, li, p, blockquote, pre, hr, figure, table, caption, th, td, form, fieldset, legend, input, button, textarea, menu { margin: 0; padding: 0; }
-header, footer, section, article, aside, nav, hgroup, address, figure, figcaption, menu, details { display: block; }
-table { border-collapse: collapse; border-spacing: 0; }
-caption, th { text-align: left; font-weight: normal; }
-html, body, fieldset, img, iframe, abbr { border: 0; }
-i, cite, em, var, address, dfn { font-style: normal; }
-[hidefocus], summary { outline: 0; }
-li { list-style: none; }
-h1, h2, h3, h4, h5, h6, small { font-size: 100%; }
-sup, sub { font-size: 83%; }
-pre, code, kbd, samp { font-family: inherit; }
-q:before, q:after { content: none; }
-textarea { overflow: auto; resize: none; }
-label, summary { cursor: default; }
-a, button { cursor: pointer; }
-a { text-decoration: none; color: #1155CC; }
-: focus { border: 0; }
-em, i { font-style: normal; }
-img { border: 0; }
-textarea { outline: none; resize: none; }
-h1, h2, h3, h4, h5, h6, em, strong, b { font-weight: bold; }
-del, ins, u, s, a, a:hover { text-decoration: none; }
-body input, body select { outline: none; blr: expression(this.onFocus=this.blur()); border: none; }
-body, textarea, input, button, select, keygen, legend { font: 12px/1.14 arial, \5b8b\4f53; color: #333; outline: 0; }
-body { background: #ffffff; font-family: "宋体"; font-size: 12px; }
-a, a:hover { color: #333; }
-.clear { display: block; content: ''; clear: both; visibility: hidden; height: 0; }
-select { outline: none; vertical-align: middle; -webkit-appearance: none; appearance: none; }
-body, html { width: 100%; height: 100%; }
-body { min-width: 320px; max-width: 1280px; width: 100%; margin: 0px auto; font-family: '微软雅黑', 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif; font-size: 12px; }
-textarea, select { -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance: none; }
-input[type="button"], input[type="submit"], input[type="reset"], input[type="date"] { -webkit-appearance: none;border-radius:0; }
+/* wang css-reset 
+   v1.0.5 | 20181021
+   License: none
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+    display: block;
+}
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+    display: none;
+}
+body, html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-size: .22rem;
+    line-height: 1.2;
+    min-width: 320px; 
+    max-width: 1280px;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback', '微软雅黑', 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, .6); /* transparent解决手机点击出现蓝色底 */
+    color: #333;
+    margin: 0 auto;
+    /*英文换行*/
+    /*word-break:break-all;*/
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+img{
+    max-width: 100%!important;
+    border: 0;
+    display: block;
+}
+textarea {
+    resize: none;
+    font-size: .22rem;
+    font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback', '微软雅黑', 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, .6); /* transparent解决手机点击出现蓝色底 */
+    outline: none; /* 20180710 */
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+select {
+    outline: none;
+    vertical-align: middle;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+}
+/* 清除浮动 */
+.clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+    visibility: hidden;
+    height: 0;
+}
+input {
+    outline:none;
+    border: none;
+}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="date"] {
+    font-size: .22rem;
+    -webkit-appearance: none;
+    border-radius:0;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { 
+     /* WebKit browsers */ 
+    color: #666;
+} 
+input:-moz-placeholder, textarea:-moz-placeholder { 
+    /* Mozilla Firefox 4 to 18 */ 
+    color: #666;
+} 
+input::-moz-placeholder, textarea::-moz-placeholder { 
+     /* Mozilla Firefox 19+ */ 
+    color: #666;
+} 
+input:-ms-input-placeholder, textarea:-ms-input-placeholder { 
+     /* Internet Explorer 10+ */ 
+    color: #666;
+}
+/* 解决谷歌浏览器输入框黄色底问题 */
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-transition-delay: 99999s;
+        -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+}
+/* 解决苹果移动端input type为button及button颜色透明渐变问题 */
+input[type=button], input[type=submit], input[type=file], button {
+    cursor: pointer;
+    outline: 0px;
+    -webkit-appearance: none;
+}
